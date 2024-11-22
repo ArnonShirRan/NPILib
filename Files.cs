@@ -43,6 +43,34 @@ namespace NPILib
             }
         }
 
+        // NEW METHOD: Scan folder recursively
+        public void ScanFolderRecursively(string folderPath)
+        {
+            if (string.IsNullOrWhiteSpace(folderPath))
+                throw new ArgumentException("Folder path cannot be null or empty.", nameof(folderPath));
+
+            if (!Directory.Exists(folderPath))
+                throw new DirectoryNotFoundException($"The directory '{folderPath}' does not exist.");
+
+            // Call ScanFolder for the current folder
+            ScanFolder(folderPath);
+
+            // Recursively process subdirectories
+            var subdirectories = Directory.GetDirectories(folderPath);
+            foreach (var subdirectory in subdirectories)
+            {
+                try
+                {
+                    ScanFolderRecursively(subdirectory); // Recursive call
+                }
+                catch (Exception ex)
+                {
+                    // Handle any exceptions and log if necessary
+                    Console.WriteLine($"Error processing subdirectory '{subdirectory}': {ex.Message}");
+                }
+            }
+        }
+
         // Method to create a CSV file for all file properties and save it to the given path
         public void ExportToCsv(string outputFolderPath)
         {
@@ -81,8 +109,6 @@ namespace NPILib
             }
         }
 
-
-        // Helper method to escape CSV fields
         // Helper method to escape and sanitize CSV fields
         private string EscapeCsvField(string field)
         {
@@ -97,8 +123,6 @@ namespace NPILib
                 ? $"\"{field.Replace("\"", "\"\"")}\""
                 : field;
         }
-
-
 
         // Method to display all files in the list
         public void DisplayFiles()
