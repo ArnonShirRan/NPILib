@@ -33,6 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,12 +46,15 @@
     <Compile Include="CSVCreator.cs" />
     <Compile Include="CSVHelper.cs" />
     <Compile Include="Date.cs" />
-    <Compile Include="File.cs" />
+    <Compile Include="ProdFile.cs" />
     <Compile Include="FileDisplay.cs" />
     <Compile Include="FileNameValidator.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="FolderScanner.cs" />
     <Compile Include="Hour.cs" />
+    <Compile Include="PNFileCompressor.cs" />
+    <Compile Include="PNFileProcessor.cs" />
+    <Compile Include="PNFiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScanLogger.cs" />
     <Compile Include="Time.cs" />

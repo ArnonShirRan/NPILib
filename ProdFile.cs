@@ -2,7 +2,7 @@
 
 namespace NPILib
 {
-    public class File
+    public class ProdFile
     {
         public string Path { get; private set; }
         public string FileName { get; private set; }
@@ -10,12 +10,16 @@ namespace NPILib
         public bool IsProductionFile { get; private set; }
         public string PartNumber { get; private set; }
         public string Rev { get; private set; }
-        public bool IsValid { get; private set; } // New property
+        public bool IsValid { get; private set; } // Existing property
+        public Time LastModified { get; private set; } // New property using Time class
 
-        public File(string path)
+        public ProdFile(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentException("Path cannot be null or empty.", nameof(path));
+
+            if (!System.IO.File.Exists(path))
+                throw new ArgumentException("File does not exist at the provided path.", nameof(path));
 
             Path = path;
             FileName = System.IO.Path.GetFileName(path);
@@ -23,6 +27,7 @@ namespace NPILib
             Type = GetFileType(path);
             SetPartNumberAndRev(path);
             SetIsProductionFile();
+            LastModified = GetLastModifiedTime(path); // Set the last modified time using Time class
         }
 
         private string GetFileType(string path)
@@ -53,9 +58,15 @@ namespace NPILib
             IsProductionFile = (Type == "pdf" || Type == "x_t") && !string.IsNullOrEmpty(Rev) && System.Text.RegularExpressions.Regex.IsMatch(Rev, "^[A-Z]$");
         }
 
+        private Time GetLastModifiedTime(string path)
+        {
+            DateTime lastWriteTime = System.IO.File.GetLastWriteTime(path);
+            return new Time(lastWriteTime); // Uses the new DateTime constructor
+        }
+
         public string GetFileInfo()
         {
-            return $"File: {FileName}, Type: {Type}, PartNumber: {PartNumber}, Revision: {Rev}, IsProductionFile: {IsProductionFile}, IsValid: {IsValid}";
+            return $"File: {FileName}, Type: {Type}, PartNumber: {PartNumber}, Revision: {Rev}, IsProductionFile: {IsProductionFile}, IsValid: {IsValid}, LastModified: {LastModified}";
         }
 
         public override string ToString()

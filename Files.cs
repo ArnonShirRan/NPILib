@@ -4,15 +4,15 @@ namespace NPILib
 {
     public class Files
     {
-        public List<File> FileList { get; private set; }
+        public List<ProdFile> FileList { get; private set; }
 
         public Files()
         {
-            FileList = new List<File>();
+            FileList = new List<ProdFile>();
         }
 
         // Add scanned files to the list
-        public void AddFiles(IEnumerable<File> files)
+        public void AddFiles(IEnumerable<ProdFile> files)
         {
             FileList.AddRange(files);
         }

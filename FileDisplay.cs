@@ -5,7 +5,7 @@ namespace NPILib
 {
     public static class FileDisplay
     {
-        public static void DisplayFiles(IEnumerable<File> fileList)
+        public static void DisplayFiles(IEnumerable<ProdFile> fileList)
         {
             if (fileList == null)
             {

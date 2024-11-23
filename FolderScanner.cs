@@ -8,7 +8,7 @@ namespace NPILib
 {
     public static class FolderScanner
     {
-        public static List<File> ScanFolder(string folderPath)
+        public static List<ProdFile> ScanFolder(string folderPath)
         {
             try
             {
@@ -18,12 +18,12 @@ namespace NPILib
                 if (!Directory.Exists(folderPath))
                     throw new DirectoryNotFoundException($"The directory '{folderPath}' does not exist or is inaccessible.");
 
-                var fileList = new List<File>();
+                var fileList = new List<ProdFile>();
                 var files = Directory.GetFiles(folderPath);
 
                 foreach (var filePath in files)
                 {
-                    var file = new File(filePath);
+                    var file = new ProdFile(filePath);
 
                     if (!file.IsValid)
                     {
@@ -39,19 +39,19 @@ namespace NPILib
             catch (UnauthorizedAccessException ex)
             {
                 Console.WriteLine($"Access denied to folder '{folderPath}': {ex.Message}");
-                return new List<File>();
+                return new List<ProdFile>();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error scanning folder '{folderPath}': {ex.Message}");
-                return new List<File>();
+                return new List<ProdFile>();
             }
         }
 
 
-        public static List<File> ScanFolderRecursively(string folderPath)
+        public static List<ProdFile> ScanFolderRecursively(string folderPath)
         {
-            var fileList = new List<File>();
+            var fileList = new List<ProdFile>();
             fileList.AddRange(ScanFolder(folderPath));
 
             var subdirectories = Directory.GetDirectories(folderPath);

@@ -41,6 +41,14 @@ namespace NPILib
             Hour = new Hour(time);
         }
 
+        // Constructor from DateTime object
+        public Time(DateTime dateTime)
+        {
+            // Break down DateTime into Date and Hour components
+            Date = new Date(dateTime.Day, dateTime.Month, dateTime.Year);
+            Hour = new Hour(dateTime.Hour, dateTime.Minute, dateTime.Second);
+        }
+
         // Method to get the full timestamp as a string
         public string GetFullTimestamp(string dateFormat = "dd/mm/yyyy")
         {
