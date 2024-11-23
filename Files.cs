@@ -72,57 +72,14 @@ namespace NPILib
         }
 
         // Method to create a CSV file for all file properties and save it to the given path
-        public void ExportToCsv(string outputFolderPath)
+        public void ExportToCsv(string outputPath)
         {
-            if (string.IsNullOrWhiteSpace(outputFolderPath))
-                throw new ArgumentException("Output folder path cannot be null or empty.", nameof(outputFolderPath));
-
-            if (!Directory.Exists(outputFolderPath))
-                throw new DirectoryNotFoundException($"The directory '{outputFolderPath}' does not exist.");
-
-            // Define the CSV file path
-            string csvFilePath = Path.Combine(outputFolderPath, "FileList.csv");
-
-            try
-            {
-                using (var writer = new StreamWriter(csvFilePath))
-                {
-                    // Write CSV header
-                    writer.WriteLine("FileName,Type,PartNumber,Revision,IsProductionFile");
-
-                    // Write each file's properties as a CSV row
-                    foreach (var file in FileList)
-                    {
-                        writer.WriteLine($"{EscapeCsvField(Path.GetFileName(file.Path))}," +
-                                         $"{EscapeCsvField(file.Type)}," +
-                                         $"{EscapeCsvField(file.PartNumber)}," +
-                                         $"{EscapeCsvField(file.Rev)}," +
-                                         $"{EscapeCsvField(file.IsProductionFile.ToString())}");
-                    }
-                }
-
-                Console.WriteLine($"CSV file successfully created at: {csvFilePath}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error creating CSV file: {ex.Message}");
-            }
+            // Delegate to CSVCreator
+            CSVCreator.CreateFilesCSV(outputPath, this);
         }
 
-        // Helper method to escape and sanitize CSV fields
-        private string EscapeCsvField(string field)
-        {
-            if (string.IsNullOrWhiteSpace(field))
-                return string.Empty;
 
-            // Replace newlines and carriage returns with spaces
-            field = field.Replace("\r", " ").Replace("\n", " ");
 
-            // Escape double quotes by doubling them and enclose the field in double quotes
-            return field.Contains(",") || field.Contains("\"") || field.Contains(" ") || field.Contains("\t")
-                ? $"\"{field.Replace("\"", "\"\"")}\""
-                : field;
-        }
 
         // Method to display all files in the list
         public void DisplayFiles()

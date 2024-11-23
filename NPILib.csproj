@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CSVCreator.cs" />
     <Compile Include="Date.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Files.cs" />
