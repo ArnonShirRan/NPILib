@@ -31,9 +31,13 @@ namespace NPILib
             {
                 try
                 {
+                    Console.WriteLine($"Processing File Path: {filePath}"); // Log the file path
                     // Create a File object for each file and add it to the list
                     var file = new File(filePath);
                     FileList.Add(file);
+
+                    // Log file information to the console
+                    Console.WriteLine($"Processed File: {file.GetFileInfo()}");
                 }
                 catch (Exception ex)
                 {
