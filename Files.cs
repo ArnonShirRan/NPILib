@@ -11,37 +11,10 @@ namespace NPILib
             FileList = new List<File>();
         }
 
-        // Non-recursive scan
-        public void ScanFolder(string folderPath)
+        // Add scanned files to the list
+        public void AddFiles(IEnumerable<File> files)
         {
-            FileList.AddRange(FolderScanner.ScanFolder(folderPath));
-        }
-
-        // Recursive scan
-        public void ScanFolderRecursively(string folderPath)
-        {
-            FileList.AddRange(FolderScanner.ScanFolderRecursively(folderPath));
-        }
-
-        // Display files in the console
-        public void DisplayFiles()
-        {
-            if (FileList.Count == 0)
-            {
-                System.Console.WriteLine("No files found.");
-                return;
-            }
-
-            foreach (var file in FileList)
-            {
-                System.Console.WriteLine(file.GetFileInfo());
-            }
-        }
-
-        // Export the file list to a CSV
-        public void ExportToCsv(string outputPath)
-        {
-            CSVCreator.CreateFilesCSV(outputPath, this);
+            FileList.AddRange(files);
         }
     }
 }

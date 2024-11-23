@@ -23,28 +23,16 @@ namespace NPILib
                 {
                     if (!file.IsValid) continue; // Skip invalid files
 
-                    writer.WriteLine($"{EscapeCsvField(file.FileName)}," +
-                                     $"{EscapeCsvField(file.Path)}," +
-                                     $"{EscapeCsvField(file.Type)}," +
-                                     $"{EscapeCsvField(file.PartNumber)}," +
-                                     $"{EscapeCsvField(file.Rev)}," +
-                                     $"{EscapeCsvField(file.IsProductionFile.ToString())}");
+                    writer.WriteLine($"{CSVHelper.EscapeCsvField(file.FileName)}," +
+                                     $"{CSVHelper.EscapeCsvField(file.Path)}," +
+                                     $"{CSVHelper.EscapeCsvField(file.Type)}," +
+                                     $"{CSVHelper.EscapeCsvField(file.PartNumber)}," +
+                                     $"{CSVHelper.EscapeCsvField(file.Rev)}," +
+                                     $"{CSVHelper.EscapeCsvField(file.IsProductionFile.ToString())}");
                 }
             }
 
             System.Console.WriteLine($"CSV file successfully created at: {outputPath}");
-        }
-
-        private static string EscapeCsvField(string field)
-        {
-            if (string.IsNullOrWhiteSpace(field)) return string.Empty;
-
-            if (field.Contains(",") || field.Contains("\"") || field.Contains(" "))
-            {
-                field = $"\"{field.Replace("\"", "\"\"")}\"";
-            }
-
-            return field;
         }
     }
 }

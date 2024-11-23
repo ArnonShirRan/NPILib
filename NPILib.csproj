@@ -42,13 +42,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSVCreator.cs" />
+    <Compile Include="CSVHelper.cs" />
     <Compile Include="Date.cs" />
     <Compile Include="File.cs" />
+    <Compile Include="FileDisplay.cs" />
     <Compile Include="FileNameValidator.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="FolderScanner.cs" />
     <Compile Include="Hour.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScanLogger.cs" />
     <Compile Include="Time.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
