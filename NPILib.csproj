@@ -44,7 +44,9 @@
     <Compile Include="CSVCreator.cs" />
     <Compile Include="Date.cs" />
     <Compile Include="File.cs" />
+    <Compile Include="FileNameValidator.cs" />
     <Compile Include="Files.cs" />
+    <Compile Include="FolderScanner.cs" />
     <Compile Include="Hour.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Time.cs" />
