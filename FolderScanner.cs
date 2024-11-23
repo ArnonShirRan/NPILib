@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System;
+
+
 
 namespace NPILib
 {
@@ -7,30 +10,44 @@ namespace NPILib
     {
         public static List<File> ScanFolder(string folderPath)
         {
-            if (string.IsNullOrWhiteSpace(folderPath))
-                throw new System.ArgumentException("Folder path cannot be null or empty.", nameof(folderPath));
-
-            if (!Directory.Exists(folderPath))
-                throw new DirectoryNotFoundException($"The directory '{folderPath}' does not exist.");
-
-            var fileList = new List<File>();
-            var files = Directory.GetFiles(folderPath);
-
-            foreach (var filePath in files)
+            try
             {
-                var file = new File(filePath);
+                if (string.IsNullOrWhiteSpace(folderPath))
+                    throw new ArgumentException("Folder path cannot be null or empty.", nameof(folderPath));
 
-                if (!file.IsValid)
+                if (!Directory.Exists(folderPath))
+                    throw new DirectoryNotFoundException($"The directory '{folderPath}' does not exist or is inaccessible.");
+
+                var fileList = new List<File>();
+                var files = Directory.GetFiles(folderPath);
+
+                foreach (var filePath in files)
                 {
-                    ScanLogger.LogSkippedFile(file.FileName);
-                    continue;
+                    var file = new File(filePath);
+
+                    if (!file.IsValid)
+                    {
+                        ScanLogger.LogSkippedFile(file.FileName);
+                        continue;
+                    }
+
+                    fileList.Add(file);
                 }
 
-                fileList.Add(file);
+                return fileList;
             }
-
-            return fileList;
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine($"Access denied to folder '{folderPath}': {ex.Message}");
+                return new List<File>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error scanning folder '{folderPath}': {ex.Message}");
+                return new List<File>();
+            }
         }
+
 
         public static List<File> ScanFolderRecursively(string folderPath)
         {
